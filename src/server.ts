@@ -230,32 +230,33 @@ const updateEmployeeRole = () => {
       });
   });
 };
+//Bonus : future issue, need to be able to delete the department and how is relates to the roles 
+// const deleteDepartment = () => {
+//   pool.query("SELECT * FROM department").then(({ rows }) => {
+//     const departmentArray = rows.map((department) => ({
+//       name: department.name,
+//       value: department.id,
+//     }));
+//     inquirer
+//       .prompt([
+//         {
+//           type: "list",
+//           message: "Select a department to delete",
+//           name: "selectDepartment",
+//           choices: departmentArray,
+//         },
+//       ])
+//       .then((answers) => {
+//         pool
+//           .query("DELETE FROM department WHERE id=$1", [
+//             answers.selectDepartment,
+//           ])
+//           .then(() => init());
+//       });
+//   });
+// };
 
-const deleteDepartment = () => {
-  pool.query("SELECT * FROM department").then(({ rows }) => {
-    const departmentArray = rows.map((department) => ({
-      name: department.name,
-      value: department.id,
-    }));
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          message: "Select a department to delete",
-          name: "selectDepartment",
-          choices: departmentArray,
-        },
-      ])
-      .then((answers) => {
-        pool
-          .query("DELETE FROM department WHERE id=$1", [
-            answers.selectDepartment,
-          ])
-          .then(() => init());
-      });
-  });
-};
-
+//Bonus
 const deleteEmployee = () => {
   pool.query("SELECT id, first_name, last_name FROM employee")
     .then(({ rows }) => {

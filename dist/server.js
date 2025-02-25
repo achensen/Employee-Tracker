@@ -19,6 +19,7 @@ const init = () => {
                 "Add Employee",
                 "Update Employee Role",
                 "Delete Department",
+                "Delete Employee",
                 "Exit",
             ],
         },
@@ -48,6 +49,9 @@ const init = () => {
                 break;
             case "Delete Department":
                 deleteDepartment();
+                break;
+            case "Delete Employee":
+                deleteEmployee();
                 break;
             case "Exit":
                 process.exit();
@@ -137,7 +141,7 @@ const addEmployee = async () => {
         name: role.title,
         value: role.id,
     }));
-    // access to manager list
+    // access to employee to select manager
     const employeesResult = await pool.query("SELECT id, first_name, last_name FROM employee");
     const managers = employeesResult.rows.map((emp) => ({
         name: `${emp.first_name} ${emp.last_name}`,
@@ -226,6 +230,33 @@ const deleteDepartment = () => {
                 answers.selectDepartment,
             ])
                 .then(() => init());
+        });
+    });
+};
+const deleteEmployee = () => {
+    pool.query("SELECT id, first_name, last_name FROM employee")
+        .then(({ rows }) => {
+        const employeesList = rows.map((employee) => ({
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+        }));
+        inquirer
+            .prompt([
+            {
+                type: "list",
+                message: "Select an employee to delete",
+                name: "selectedEmployeeId",
+                choices: employeesList,
+            },
+        ])
+            .then((answers) => {
+            const { selectedEmployeeId } = answers;
+            pool
+                .query("DELETE FROM employee WHERE id = $1", [selectedEmployeeId])
+                .then(() => {
+                console.log("Employee deleted successfully.");
+                init();
+            });
         });
     });
 };
