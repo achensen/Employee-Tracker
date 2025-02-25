@@ -20,7 +20,6 @@ const init = () => {
           "Add Role",
           "Add Employee",
           "Update Employee Role",
-          "Delete Department",
           "Delete Employee",
           "Exit",
         ],
@@ -48,9 +47,6 @@ const init = () => {
           break;
         case "Update Employee Role":
           updateEmployeeRole();
-          break;
-        case "Delete Department":
-          deleteDepartment();
           break;
         case "Delete Employee":
           deleteEmployee();
